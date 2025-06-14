@@ -1,12 +1,10 @@
 import { Injectable } from "@nestjs/common";
-import { Inject } from "@nestjs/common";
 import { EthService } from "../signers/eth.service";
 import type { CreateTransferDto } from "./dto/transfer.dto";
 
 @Injectable()
 export class TransferService {
 	constructor(
-		@Inject(EthService)
 		private readonly ethService: EthService,
 	) {}
 
