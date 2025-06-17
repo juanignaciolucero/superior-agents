@@ -1,4 +1,11 @@
-import { Body, Controller, HttpException, Logger, Post } from "@nestjs/common";
+import {
+	Body,
+	Controller,
+	HttpException,
+	Inject,
+	Logger,
+	Post,
+} from "@nestjs/common";
 import { Headers } from "@nestjs/common";
 import { ApiHeader, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import {
@@ -22,7 +29,10 @@ import { TransferService } from "./transfer.service";
 @Controller("transfers")
 export class TransferController {
 	private readonly logger = new Logger(TransferController.name);
-	constructor(private readonly transferService: TransferService) {}
+	constructor(
+		@Inject(TransferService)
+		private readonly transferService: TransferService,
+	) {}
 
 	@Post()
 	@ApiOperation({ summary: "Create a transfer" })
