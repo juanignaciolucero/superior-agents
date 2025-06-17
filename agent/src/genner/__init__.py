@@ -1,19 +1,22 @@
-from typing import Callable
+from typing import Callable, Union, Optional
 
 from anthropic import Anthropic
 from openai import OpenAI
 
 from src.client.openrouter import OpenRouter
+from src.client.gemini import Gemini
 from src.config import (
 	ClaudeConfig,
 	DeepseekConfig,
 	OAIConfig,
 	OllamaConfig,
 	OpenRouterConfig,
+	GeminiConfig,
 )
 from src.genner.Claude import ClaudeGenner
 from src.genner.OAI import OAIGenner
 from src.genner.OR import OpenRouterGenner
+from src.genner.Gemini import GeminiGenner
 
 from .Base import Genner
 from .Deepseek import DeepseekGenner
@@ -49,16 +52,17 @@ available_backends = [
 
 def get_genner(
 	backend: str,
-	stream_fn: Callable[[str], None] | None,
-	deepseek_deepseek_client: OpenAI | None = None,
-	deepseek_local_client: OpenAI | None = None,
-	anthropic_client: Anthropic | None = None,
-	or_client: OpenRouter | None = None,
-	llama_client: OpenAI | None = None,
+	stream_fn: Optional[Callable[[str], None]],
+	deepseek_deepseek_client: Optional[OpenAI] = None,
+	deepseek_local_client: Optional[OpenAI] = None,
+	anthropic_client: Optional[Anthropic] = None,
+	or_client: Optional[OpenRouter] = None,
+	llama_client: Optional[OpenAI] = None,
+	gemini_client: Optional[Gemini] = None,
 	deepseek_config: DeepseekConfig = DeepseekConfig(),
 	claude_config: ClaudeConfig = ClaudeConfig(),
 	openai_config: OpenRouterConfig = OpenRouterConfig(),
-	gemini_config: OpenRouterConfig = OpenRouterConfig(),
+	gemini_config: GeminiConfig = GeminiConfig(),
 	llama_config: OAIConfig = OAIConfig(),
 	qwq_config: OpenRouterConfig = OpenRouterConfig(),
 ) -> Genner:
@@ -150,15 +154,12 @@ def get_genner(
 
 		return DeepseekGenner(or_client, deepseek_config, stream_fn)
 	elif backend == "gemini":
-		gemini_config.name = "google/gemini-2.0-flash-lite-001"
-		gemini_config.model = "google/gemini-2.0-flash-lite-001"
-
-		if not or_client:
+		if not gemini_client:
 			raise Exception(
-				"Using backend 'gemini', OpenRouter client is not provided."
+				"Using backend 'gemini', Gemini client is not provided."
 			)
 
-		return OpenRouterGenner(or_client, gemini_config, stream_fn)
+		return GeminiGenner(gemini_client, gemini_config, stream_fn)
 	elif backend == "llama":
 		llama_config.name = "NousResearch/Meta-Llama-3-8B"
 		llama_config.model = "NousResearch/Meta-Llama-3-8B"

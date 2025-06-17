@@ -122,3 +122,23 @@ class OpenRouterConfig(BaseLLMConfig):
 	model: str = "openai/o3-mini"
 	max_tokens = 8192
 	temperature: float | None = None
+
+
+@dataclass
+class GeminiConfig(BaseLLMConfig):
+	"""
+	Configuration for Google's Gemini language models.
+
+	This class contains settings specific to Gemini models, including
+	the model name, identifier, and maximum token limit.
+
+	Attributes:
+		name (str): The display name of the model
+		model (str): The model identifier for Gemini
+		max_tokens (int): The maximum number of tokens for model output
+	"""
+
+	name: str = "models/gemini-1.5-flash"
+	model: str = "models/gemini-1.5-flash"
+	max_tokens = 8192
+	temperature: float | None = None

@@ -91,6 +91,8 @@ frozenlist==1.5.0
     # via
     #   aiohttp
     #   aiosignal
+google-generativeai==0.3.2
+    # via superior-agent (pyproject.toml)
 h11==0.14.0
     # via
     #   httpcore

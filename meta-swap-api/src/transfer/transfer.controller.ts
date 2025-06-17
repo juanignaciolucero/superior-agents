@@ -5,7 +5,7 @@ import {
 	type CreateTransferDto,
 	TransferResponseDto,
 } from "./dto/transfer.dto";
-import type { TransferService } from "./transfer.service";
+import { TransferService } from "./transfer.service";
 
 @ApiTags("transfers")
 @ApiHeader({
