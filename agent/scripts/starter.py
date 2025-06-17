@@ -5,8 +5,6 @@ import tweepy
 import inquirer
 import time
 from pathlib import Path
-import json
-
 from src.db import SQLiteDB
 from src.client.rag import RAGClient
 from tests.mock_client.rag import MockRAGClient

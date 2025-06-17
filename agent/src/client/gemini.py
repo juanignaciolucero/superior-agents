@@ -1,6 +1,6 @@
 import os
 import google.generativeai as genai
-from typing import Optional, Dict, Generator, List, Any, Tuple
+from typing import Optional, Dict, Generator, List
 from dataclasses import dataclass
 
 
