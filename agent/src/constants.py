@@ -196,4 +196,5 @@ SERVICE_TO_ENV: Dict[str, List[str]] = {
 	"Infura": [
 		"INFURA_PROJECT_ID",
 	],
+	"Gemini": ["GOOGLE_API_KEY"],
 }

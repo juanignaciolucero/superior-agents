@@ -14,7 +14,7 @@ from src.config import (
 from src.genner.Claude import ClaudeGenner
 from src.genner.OAI import OAIGenner
 from src.genner.OR import OpenRouterGenner
-
+from src.genner.Gemini import GeminiGenner, Gemini
 from .Base import Genner
 from .Deepseek import DeepseekGenner
 from .Qwen import QwenGenner
@@ -55,6 +55,7 @@ def get_genner(
 	anthropic_client: Anthropic | None = None,
 	or_client: OpenRouter | None = None,
 	llama_client: OpenAI | None = None,
+	gemini_client: Gemini | None = None,
 	deepseek_config: DeepseekConfig = DeepseekConfig(),
 	claude_config: ClaudeConfig = ClaudeConfig(),
 	openai_config: OpenRouterConfig = OpenRouterConfig(),
@@ -153,12 +154,10 @@ def get_genner(
 		gemini_config.name = "google/gemini-2.0-flash-lite-001"
 		gemini_config.model = "google/gemini-2.0-flash-lite-001"
 
-		if not or_client:
-			raise Exception(
-				"Using backend 'gemini', OpenRouter client is not provided."
-			)
+		if not gemini_client:
+			raise Exception("Using backend 'gemini', Gemini client is not provided.")
 
-		return OpenRouterGenner(or_client, gemini_config, stream_fn)
+		return GeminiGenner(gemini_client, gemini_config, stream_fn)
 	elif backend == "llama":
 		llama_config.name = "NousResearch/Meta-Llama-3-8B"
 		llama_config.model = "NousResearch/Meta-Llama-3-8B"

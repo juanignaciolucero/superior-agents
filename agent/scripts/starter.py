@@ -46,7 +46,7 @@ from src.client.gemini import Gemini
 workspace_root = Path(__file__).parent.parent.parent
 
 # Load environment variables from the workspace root
-load_dotenv(workspace_root / ".env.quickstart")
+load_dotenv(workspace_root / ".env")
 load_dotenv(
 	override=True
 )  # This will load .env but won't override values from .env.quickstart
@@ -287,7 +287,6 @@ def extra_model_questions(answer_model):
 		answers_or_key = inquirer.prompt(question_or_key)
 		os.environ["OPENROUTER_API_KEY"] = answers_or_key["or_api_key"]
 	elif "Gemini (direct)" in answer_model and not os.getenv("GOOGLE_API_KEY"):
-		# Only ask for API key if it's not in environment variables
 		question_gemini_key = [
 			inquirer.Password(
 				"gemini_api_key", message="Please enter the Google API key for Gemini"

@@ -25,7 +25,7 @@ services:
     networks:
       - app-network
     env_file:
-      - ./examples/.env.quickstart
+      - .env
 
   meta-swap-api:
     build:
@@ -42,7 +42,7 @@ services:
       - PORT=9009
       - SOLANA_RPC_URL=https://api.mainnet-beta.solana.com
     env_file:
-      - ./examples/.env.quickstart
+      - .env
 
   rag-api:
     build:
@@ -57,7 +57,7 @@ services:
       - NODE_ENV=development
       # - OPENAI_API_KEY=${OPENAI_API_KEY}
     env_file:
-      - ./examples/.env.quickstart
+      - .env
     
 networks:
   app-network:
