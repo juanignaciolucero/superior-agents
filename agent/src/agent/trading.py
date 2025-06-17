@@ -720,15 +720,15 @@ class TradingPromptGenerator:
 			from dotenv import load_dotenv
 			import ...
 
-			load_dotenv()
+            load_dotenv()
 
-			def main():
-				....
-			
-			main()
-			```
-			Please generate the code, and make sure the output are short and concise, you only need to show list of token and its address.
-		""").strip(),
+            def main():
+                ....
+            
+            main()
+            ```
+            Please generate the code, and make sure the output are short and concise, you only need to show list of token and its address.
+        """).strip(),
 			#
 			#
 			#

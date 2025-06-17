@@ -4,7 +4,7 @@ import requests
 import tweepy
 import inquirer
 import time
-
+from pathlib import Path
 from src.db import SQLiteDB
 from src.client.rag import RAGClient
 from tests.mock_client.rag import MockRAGClient
@@ -40,8 +40,16 @@ from src.constants import FE_DATA_MARKETING_DEFAULTS, FE_DATA_TRADING_DEFAULTS
 from src.manager import fetch_default_prompt
 from dotenv import load_dotenv
 from src.twitter import TweepyTwitterClient
+from src.client.gemini import Gemini
 
-load_dotenv()
+# Get the workspace root directory
+workspace_root = Path(__file__).parent.parent.parent
+
+# Load environment variables from the workspace root
+load_dotenv(workspace_root / ".env.quickstart")
+load_dotenv(
+	override=True
+)  # This will load .env but won't override values from .env.quickstart
 
 
 def start_marketing_agent(
@@ -261,6 +269,7 @@ def extra_model_questions(answer_model):
 		"OpenAI": "openai",
 		"OpenAI (openrouter)": "openai",
 		"Gemini (openrouter)": "gemini",
+		"Gemini (direct)": "gemini",
 		"QWQ (openrouter)": "qwq",
 		"Claude": "claude",
 	}
@@ -277,6 +286,15 @@ def extra_model_questions(answer_model):
 		]
 		answers_or_key = inquirer.prompt(question_or_key)
 		os.environ["OPENROUTER_API_KEY"] = answers_or_key["or_api_key"]
+	elif "Gemini (direct)" in answer_model and not os.getenv("GOOGLE_API_KEY"):
+		# Only ask for API key if it's not in environment variables
+		question_gemini_key = [
+			inquirer.Password(
+				"gemini_api_key", message="Please enter the Google API key for Gemini"
+			)
+		]
+		answers_gemini_key = inquirer.prompt(question_gemini_key)
+		os.environ["GOOGLE_API_KEY"] = answers_gemini_key["gemini_api_key"]
 	elif "OpenAI" == answer_model and not os.getenv("OPENAI_API_KEY"):
 		question_openai_key = [
 			inquirer.Password(
@@ -442,6 +460,7 @@ def starter_prompt():
 				"OpenAI",
 				"OpenAI (openrouter)",
 				"Gemini (openrouter)",
+				"Gemini (direct)",
 				"QWQ (openrouter)",
 				"Claude",
 			],
@@ -510,11 +529,17 @@ def starter_prompt():
 		else None
 	)
 
+	gemini_client = (
+		Gemini(api_key=os.getenv("GOOGLE_API_KEY"))
+		if os.getenv("GOOGLE_API_KEY") is not None
+		else None
+	)
+
 	genner = get_genner(
 		backend=fe_data["model"],
-		# deepseek_deepseek_client=deepseek_deepseek_client,
 		or_client=or_client,
 		anthropic_client=anthropic_client,
+		gemini_client=gemini_client,
 		stream_fn=lambda token: print(token, end="", flush=True),
 	)
 	# modify this if you want to run this forever

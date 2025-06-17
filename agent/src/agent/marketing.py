@@ -329,14 +329,14 @@ class MarketingPromptGenerator:
 				from dotenv import load_dotenv
 				import ...
 
-				load_dotenv()
+                load_dotenv()
 
-				def main():
-					....
+                def main():
+                    ....
 
-				main()
-				```
-			""").strip(),
+                main()
+                ```
+            """).strip(),
 			#
 			#
 			#
@@ -359,7 +359,7 @@ class MarketingPromptGenerator:
 				from dotenv import load_dotenv
 				import ...
 
-				load_dotenv()
+                load_dotenv()
 
 				def main():
 					....

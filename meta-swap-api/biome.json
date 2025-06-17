@@ -1,5 +1,6 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+	"root": false,
+	"$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
 	"vcs": {
 		"enabled": false,
 		"clientKind": "git",
@@ -7,15 +8,19 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": ["dist", "package.json", "tsconfig.json", ".vscode"]
+		"includes": [
+			"**",
+			"!**/dist",
+			"!**/package.json",
+			"!**/tsconfig.json",
+			"!**/.vscode"
+		]
 	},
 	"formatter": {
 		"enabled": true,
 		"indentStyle": "tab"
 	},
-	"organizeImports": {
-		"enabled": true
-	},
+	"assist": { "actions": { "source": { "organizeImports": "on" } } },
 	"linter": {
 		"enabled": true,
 		"rules": {
@@ -28,14 +33,14 @@
 				"noUnusedVariables": {
 					"level": "error",
 					"fix": "safe"
-				},
-				"noUnnecessaryContinue": "info"
+				}
 			},
 			"complexity": {
 				"useLiteralKeys": "off",
 				"noUselessConstructor": "off",
 				"useOptionalChain": "info",
-				"noForEach": "info"
+				"noForEach": "info",
+				"noUselessContinue": "info"
 			},
 			"suspicious": {
 				"noDoubleEquals": {
@@ -49,7 +54,16 @@
 			},
 			"style": {
 				"noUselessElse": "off",
-				"noNonNullAssertion": "warn"
+				"noNonNullAssertion": "warn",
+				"noParameterAssign": "error",
+				"useAsConstAssertion": "error",
+				"useDefaultParameterLast": "error",
+				"useEnumInitializers": "error",
+				"useSelfClosingElements": "error",
+				"useSingleVarDeclarator": "error",
+				"noUnusedTemplateLiteral": "error",
+				"useNumberNamespace": "error",
+				"noInferrableTypes": "error"
 			},
 			"performance": {
 				"noDelete": "info"
