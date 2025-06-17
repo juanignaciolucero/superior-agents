@@ -47,7 +47,9 @@ workspace_root = Path(__file__).parent.parent.parent
 
 # Load environment variables from the workspace root
 load_dotenv(workspace_root / ".env.quickstart")
-load_dotenv(override=True)  # This will load .env but won't override values from .env.quickstart
+load_dotenv(
+	override=True
+)  # This will load .env but won't override values from .env.quickstart
 
 
 def start_marketing_agent(
