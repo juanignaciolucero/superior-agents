@@ -12,6 +12,7 @@ wheels/
 # Secrets
 .env
 .env.quickstart
+**/.env.quickstart
 
 node_modules
 
