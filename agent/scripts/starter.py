@@ -261,6 +261,7 @@ def extra_model_questions(answer_model):
 		"OpenAI": "openai",
 		"OpenAI (openrouter)": "openai",
 		"Gemini (openrouter)": "gemini",
+		"Gemini (direct)": "gemini-direct",
 		"QWQ (openrouter)": "qwq",
 		"Claude": "claude",
 	}
@@ -284,7 +285,7 @@ def extra_model_questions(answer_model):
 			)
 		]
 		answers_openai_key = inquirer.prompt(question_openai_key)
-		os.set["OPENAI_API_KEY"] = answers_openai_key["openai_api_key"]
+		os.environ["OPENAI_API_KEY"] = answers_openai_key["openai_api_key"]
 	elif "Claude" in answer_model and not os.getenv("ANTHROPIC_API_KEY"):
 		question_claude_key = [
 			inquirer.Password(
@@ -293,6 +294,14 @@ def extra_model_questions(answer_model):
 		]
 		answers_claude_key = inquirer.prompt(question_claude_key)
 		os.environ["ANTHROPIC_API_KEY"] = answers_claude_key["claude_api_key"]
+	elif "Gemini (direct)" == answer_model and not os.getenv("GOOGLE_API_KEY"):
+		question_gemini_key = [
+			inquirer.Password(
+				"google_api_key", message="Please enter the Google Gemini API key"
+			)
+		]
+		answers_gemini_key = inquirer.prompt(question_gemini_key)
+		os.environ["GOOGLE_API_KEY"] = answers_gemini_key["google_api_key"]
 	return model_naming[answer_model]
 
 
@@ -442,6 +451,7 @@ def starter_prompt():
 				"OpenAI",
 				"OpenAI (openrouter)",
 				"Gemini (openrouter)",
+				"Gemini (direct)",
 				"QWQ (openrouter)",
 				"Claude",
 			],

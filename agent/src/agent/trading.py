@@ -340,7 +340,7 @@ class TradingPromptGenerator:
 		)
 
 	def generate_strategy_prompt(
-		self, notifications_str: str, research_output_str: str, network: str
+		self, notifications_str: str, research_output_str: str, network: str, apis: List[str] = None
 	) -> str:
 		"""
 		Generate a prompt for strategy formulation.
@@ -352,14 +352,17 @@ class TradingPromptGenerator:
 		        notifications_str (str): String containing recent notifications
 		        research_output_str (str): Output from the research code
 		        network (str): Blockchain network to operate on
+		        apis (List[str], optional): List of APIs available to the agent
 
 		Returns:
 		        str: Formatted prompt for strategy formulation
 		"""
+		apis_str = ",\n".join(apis) if apis else self._get_default_apis_str()
 		return self.prompts["strategy_prompt"].format(
 			notifications_str=notifications_str,
 			research_output_str=research_output_str,
 			network=network,
+			apis_str=apis_str,
 		)
 
 	def generate_address_research_code_prompt(
