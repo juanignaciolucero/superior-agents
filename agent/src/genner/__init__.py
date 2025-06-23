@@ -14,6 +14,7 @@ from src.config import (
 from src.genner.Claude import ClaudeGenner
 from src.genner.OAI import OAIGenner
 from src.genner.OR import OpenRouterGenner
+from src.client.gemini import GeminiDirect
 
 from .Base import Genner
 from .Deepseek import DeepseekGenner
@@ -42,6 +43,7 @@ available_backends = [
 	"deepseek_v3_or",
 	"openai",
 	"gemini",
+	"gemini-direct",
 	"claude",
 	"qwq",
 ]
@@ -175,6 +177,8 @@ def get_genner(
 			raise Exception("Using backend 'qwq', OpenRouter client is not provided.")
 
 		return OpenRouterGenner(or_client, qwq_config, stream_fn)
+	elif backend == "gemini-direct":
+		return GeminiDirect()
 	elif backend == "mock":
 		return MockGenner()
 	raise BackendException(
